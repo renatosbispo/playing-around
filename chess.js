@@ -1,9 +1,12 @@
+/* AVOID RUNNING THIS SCRIPT IN A BROWSER, SEE SOURCE FOR THE sleep() FUNCTION FOR MORE INFO */
+
 const ROWS = 8;
 const COLS = 8;
 const EMPTY_SQUARE = 'O';
 const QUEEN = '*';
 var chessBoard = [];
 
+/* Function taken from: https://stackoverflow.com/questions/16873323/javascript-sleep-wait-before-continuing */
 function sleep(milliseconds) {
   var start = new Date().getTime();
   for (var i = 0; i < 1e7; i++) {
