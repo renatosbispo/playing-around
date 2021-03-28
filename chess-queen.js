@@ -147,8 +147,9 @@ function endFlow() {
 }
 
 initializeBoard();
+// Set the Queen initial position
 chessBoard[0][0] = QUEEN;
-// Store the Queen's position information in a 'hidden' line of the board
+// Store the Queen position information in a 'hidden' line of the board
 chessBoard[9] = [0, 0];
 console.clear();
 printBoard();
