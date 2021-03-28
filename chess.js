@@ -4,10 +4,15 @@
 const prompt = require('prompt');
 const colors = require('colors/safe');
 
+colors.setTheme({
+  piece: ['cyan', 'bold', 'underline'],
+  textHighlight: ['black', 'bold', 'bgCyan'],
+});
+
 const ROWS = 8;
 const COLS = 8;
 const EMPTY_SQUARE = 'O';
-const QUEEN = colors.cyan.bold.underline('*');
+const QUEEN = colors.piece('*');
 var chessBoard = [];
 
 /* Function taken from: https://stackoverflow.com/questions/16873323/javascript-sleep-wait-before-continuing */
@@ -30,12 +35,12 @@ function chooseMove() {
   console.log('               (X) DOWN / (Z) DOWN-LEFT / (A) LEFT / (Q) UP-LEFT');
 
   prompt.start();
-  prompt.message = false
-  prompt.delimiter = colors.black.bold.bgCyan(':')
+  prompt.message = false;
+  prompt.delimiter = colors.textHighlight(':');
   prompt.get({
     properties: {
       move: {
-        description: colors.black.bold.bgCyan('YOUR MOVE')
+        description: colors.textHighlight('YOUR MOVE')
       }
     }
   }, function (err, result) {
@@ -68,7 +73,7 @@ function printBoard() {
 initializeBoard();
 chessBoard[3][5] = QUEEN;
 console.clear();
-console.log(colors.black.bold.bgCyan('BOARD:\n'));
+console.log(colors.textHighlight('BOARD:\n'));
 printBoard();
 console.log();
 chooseMove();
