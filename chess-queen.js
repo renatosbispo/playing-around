@@ -147,6 +147,7 @@ function endFlow() {
 initializeBoard();
 chessBoard[0][0] = QUEEN;
 chessBoard[9] = [0, 0];
+console.clear();
 printBoard();
 printMenu();
 // listen for the "keypress" event
