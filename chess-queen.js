@@ -4,6 +4,13 @@
 const prompt = require('prompt-sync')();
 const colors = require('colors/safe');
 const { log } = require('winston');
+const keypress = require('keypress');
+
+// make `process.stdin` begin emitting "keypress" events
+keypress(process.stdin);
+
+process.stdin.setRawMode(true);
+process.stdin.resume();
 
 colors.setTheme({
   piece: ['green', 'bold', 'underline'],
@@ -17,7 +24,7 @@ const UP_KEY = colors.option('(W)');
 const UP_RIGHT_KEY = colors.option('(E)');
 const RIGHT_KEY = colors.option('(D)');
 const DOWN_RIGHT_KEY = colors.option('(C)');
-const DOWN_KEY = colors.option('(X)');
+const DOWN_KEY = colors.option('(S)');
 const DOWN_LEFT_KEY = colors.option('(Z)');
 const LEFT_KEY = colors.option('(A)');
 const UP_LEFT_KEY = colors.option('(Q)');
@@ -38,13 +45,10 @@ function sleep(milliseconds) {
   }
 }
 
-function chooseOption() {
+function printMenu() {
   console.log(colors.normalText('CHOOSE A MOVE: ' + UP_KEY + ' UP / ' + UP_RIGHT_KEY + ' UP-RIGHT / ' + RIGHT_KEY + ' RIGHT / ' + DOWN_RIGHT_KEY + ' DOWN-RIGHT'));
   console.log(colors.normalText('               ' + DOWN_KEY + ' DOWN / ' + DOWN_LEFT_KEY + ' DOWN-LEFT / ' + LEFT_KEY + ' LEFT / ' + UP_LEFT_KEY + ' UP-LEFT'));
   console.log(colors.warning('OR \'O\' TO EXIT\n'));
-  let option = prompt(colors.textHighlight('YOUR CHOICE:') + ' ');
-  
-  return option.toLowerCase();
 }
 
 function initializeBoard() {
@@ -73,30 +77,38 @@ function printBoard() {
 
 function moveQueen(option, position) {
   switch (option) {
+    // UP
     case 'w':
       position[0] -= 1;
       break;
+    // UP-RIGHT
     case 'e':
       position[0] -= 1;
       position[1] += 1;
       break;
+    // RIGHT
     case 'd':
       position[1] += 1;
       break;
+    // DOWN-RIGHT
     case 'c':
       position[0] += 1;
       position[1] += 1;
       break;
-    case 'x':
+    // DOWN
+    case 's':
       position[0] += 1;
       break;
+    // DOWN-LEFT
     case 'z':
       position[0] += 1;
       position[1] -= 1;
       break;
+    // LEFT
     case 'a':
       position[1] -= 1;
       break;
+    // UP-LEFT
     case 'q':
       position[0] -= 1;
       position[1] -= 1;
@@ -109,26 +121,40 @@ function moveQueen(option, position) {
   }
 }
 
+function continueFlow(keyPressed) {
+  let position = [];
+  position[0] = chessBoard[9][0];
+  position[1] = chessBoard[9][1];
+  chessBoard[position[0]][position[1]] = EMPTY_SQUARE;
+  moveQueen(keyPressed, position);
+  chessBoard[position[0]][position[1]] = QUEEN;
+  chessBoard[9][0] = position[0];
+  chessBoard[9][1] = position[1];
+  console.clear();
+  printBoard();
+  printMenu();
+}
+
+function endFlow() {
+  console.clear();
+  console.log(colors.normalText('Thank you...'));
+  sleep(1000);
+  console.log(colors.normalText('Bye bye! :)'));
+  sleep(1000);
+  process.stdin.pause();
+}
+
 initializeBoard();
 chessBoard[0][0] = QUEEN;
-let position = [0, 0];
-let chosenOption;
-let exitChosen = false;
-console.clear();
-while(exitChosen == false) {
-  printBoard();
-  chosenOption = chooseOption();
-  if (chosenOption === 'o') {
-    exitChosen = true;
-    console.clear();
-    console.log(colors.normalText('Thank you...'));
-    sleep(1000);
-    console.log(colors.normalText('Bye bye! :)'));
-    sleep(1000);
+chessBoard[9] = [0, 0];
+printBoard();
+printMenu();
+// listen for the "keypress" event
+process.stdin.on('keypress', function (ch, key) {
+  keyPressed = key.name.toLowerCase();
+  if (keyPressed == 'o') {
+    endFlow();
   } else {
-    chessBoard[position[0]][position[1]] = EMPTY_SQUARE;
-    moveQueen(chosenOption, position);
-    chessBoard[position[0]][position[1]] = QUEEN;
-    console.clear();
+    continueFlow(keyPressed);
   }
-}
+});
