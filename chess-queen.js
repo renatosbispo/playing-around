@@ -38,11 +38,6 @@ function sleep(milliseconds) {
   }
 }
 
-function onErr(err) {
-  console.log(err);
-  return 1;
-}
-
 function chooseOption() {
   console.log(colors.normalText('CHOOSE A MOVE: ' + UP_KEY + ' UP / ' + UP_RIGHT_KEY + ' UP-RIGHT / ' + RIGHT_KEY + ' RIGHT / ' + DOWN_RIGHT_KEY + ' DOWN-RIGHT'));
   console.log(colors.normalText('               ' + DOWN_KEY + ' DOWN / ' + DOWN_LEFT_KEY + ' DOWN-LEFT / ' + LEFT_KEY + ' LEFT / ' + UP_LEFT_KEY + ' UP-LEFT'));
