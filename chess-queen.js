@@ -18,6 +18,7 @@ colors.setTheme({
   textHighlight: ['blue', 'bold', 'underline'],
   warning: ['red', 'bold', 'underline'],
   option: ['green', 'bold'],
+  news: ['yellow', 'bold'],
 });
 
 const UP_KEY = colors.option('(W)');
@@ -46,6 +47,7 @@ function sleep(milliseconds) {
 }
 
 function printMenu() {
+  console.log(colors.news('NEW! NO NEED TO PRESS <ENTER> ANYMORE! JUST HIT THE KEY YOU WANT :)'));
   console.log(colors.normalText('CONTROLS: ' + UP_KEY + ' UP / ' + UP_RIGHT_KEY + ' UP-RIGHT / ' + RIGHT_KEY + ' RIGHT / ' + DOWN_RIGHT_KEY + ' DOWN-RIGHT'));
   console.log(colors.normalText('          ' + DOWN_KEY + ' DOWN / ' + DOWN_LEFT_KEY + ' DOWN-LEFT / ' + LEFT_KEY + ' LEFT / ' + UP_LEFT_KEY + ' UP-LEFT'));
   console.log(colors.warning('\nPRESS (O) TO EXIT\n'));
@@ -116,7 +118,7 @@ function moveQueen(option, position) {
     default:
       console.clear();
       console.log(colors.warning('\nERROR: (' + option.toUpperCase() + ') IS NOT A VALID OPTION!\n'));
-      sleep(2500);
+      sleep(3000);
       break;
   }
 }
