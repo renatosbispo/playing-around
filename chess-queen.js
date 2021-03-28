@@ -12,7 +12,7 @@ process.stdin.setRawMode(true);
 process.stdin.resume();
 
 // Set the colors for the different output strings
-// See https://www.npmjs.com/package/colors for colors reference
+// See: https://www.npmjs.com/package/colors for colors reference
 colors.setTheme({
   piece: ['green', 'bold', 'underline'],
   normalText: ['blue', 'bold'],
@@ -144,7 +144,6 @@ function continueFlow(keyPressed) {
   // Update Queen position stored in hidden board line
   chessBoard[9][0] = position[0];
   chessBoard[9][1] = position[1];
-  drawMainInterface();
 }
 
 function endFlow() {
@@ -171,5 +170,6 @@ process.stdin.on('keypress', function (ch, key) {
     endFlow();
   } else {
     continueFlow(keyPressed);
+    drawMainInterface();
   }
 });
