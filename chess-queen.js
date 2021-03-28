@@ -6,9 +6,9 @@ const colors = require('colors/safe');
 const { log } = require('winston');
 const keypress = require('keypress');
 
+// Next 3 lines taken from: https://www.npmjs.com/package/keypress
 // make `process.stdin` begin emitting "keypress" events
 keypress(process.stdin);
-
 process.stdin.setRawMode(true);
 process.stdin.resume();
 
@@ -46,13 +46,6 @@ function sleep(milliseconds) {
   }
 }
 
-function printMenu() {
-  console.log(colors.news('NEW! NO NEED TO PRESS <ENTER> ANYMORE! JUST HIT THE KEY YOU WANT :)'));
-  console.log(colors.normalText('CONTROLS: ' + UP_KEY + ' UP / ' + UP_RIGHT_KEY + ' UP-RIGHT / ' + RIGHT_KEY + ' RIGHT / ' + DOWN_RIGHT_KEY + ' DOWN-RIGHT'));
-  console.log(colors.normalText('          ' + DOWN_KEY + ' DOWN / ' + DOWN_LEFT_KEY + ' DOWN-LEFT / ' + LEFT_KEY + ' LEFT / ' + UP_LEFT_KEY + ' UP-LEFT'));
-  console.log(colors.warning('\nPRESS (O) TO EXIT\n'));
-}
-
 function initializeBoard() {
   for (let rowIndex = 0; rowIndex < ROWS; rowIndex += 1) {
     chessBoard[rowIndex] = [];
@@ -75,6 +68,13 @@ function printBoard() {
     console.log(row);
   }
   console.log();
+}
+
+function printMenu() {
+  console.log(colors.news('NEW! NO NEED TO PRESS <ENTER> ANYMORE! JUST HIT THE KEY YOU WANT :)'));
+  console.log(colors.normalText('CONTROLS: ' + UP_KEY + ' UP / ' + UP_RIGHT_KEY + ' UP-RIGHT / ' + RIGHT_KEY + ' RIGHT / ' + DOWN_RIGHT_KEY + ' DOWN-RIGHT'));
+  console.log(colors.normalText('          ' + DOWN_KEY + ' DOWN / ' + DOWN_LEFT_KEY + ' DOWN-LEFT / ' + LEFT_KEY + ' LEFT / ' + UP_LEFT_KEY + ' UP-LEFT'));
+  console.log(colors.warning('\nPRESS (O) TO EXIT\n'));
 }
 
 function moveQueen(option, position) {
@@ -148,10 +148,12 @@ function endFlow() {
 
 initializeBoard();
 chessBoard[0][0] = QUEEN;
+// Store the Queen's position information in a 'hidden' line of the board
 chessBoard[9] = [0, 0];
 console.clear();
 printBoard();
 printMenu();
+// The code below was adapted from the example in the documentation: https://www.npmjs.com/package/keypress
 // listen for the "keypress" event
 process.stdin.on('keypress', function (ch, key) {
   keyPressed = key.name.toLowerCase();
