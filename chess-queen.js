@@ -1,33 +1,37 @@
-/* !!!! WARNING !!!! */
-/* THIS SCRIPT WAS MEANT TO BE EXECUTED FROM THE COMMAND LINE */
-/* AVOID RUNNING THIS SCRIPT IN A BROWSER, SEE SOURCE FOR THE sleep() FUNCTION FOR MORE INFO */
+// >>> WARNING <<<
+// THIS SCRIPT WAS MEANT TO BE EXECUTED FROM THE COMMAND LINE
+// AVOID RUNNING THIS SCRIPT IN A BROWSER, SEE SOURCE FOR THE sleep() FUNCTION FOR MORE INFO
 const colors = require('colors/safe');
 const { log } = require('winston');
 const keypress = require('keypress');
 
-// Next 3 lines taken from: https://www.npmjs.com/package/keypress
+// Next 4 lines, including comment bellow, taken from: https://www.npmjs.com/package/keypress
 // make `process.stdin` begin emitting "keypress" events
 keypress(process.stdin);
 process.stdin.setRawMode(true);
 process.stdin.resume();
 
+// Set the colors for the different output strings
+// See https://www.npmjs.com/package/colors for colors reference
 colors.setTheme({
   piece: ['green', 'bold', 'underline'],
   normalText: ['blue', 'bold'],
   textHighlight: ['blue', 'bold', 'underline'],
   warning: ['red', 'bold', 'underline'],
-  option: ['green', 'bold'],
+  controlKey: ['green', 'bold'],
   news: ['yellow', 'bold'],
 });
 
-const UP_KEY = colors.option('(W)');
-const UP_RIGHT_KEY = colors.option('(E)');
-const RIGHT_KEY = colors.option('(D)');
-const DOWN_RIGHT_KEY = colors.option('(C)');
-const DOWN_KEY = colors.option('(S)');
-const DOWN_LEFT_KEY = colors.option('(Z)');
-const LEFT_KEY = colors.option('(A)');
-const UP_LEFT_KEY = colors.option('(Q)');
+// Stylize the control keys in the menu
+// THIS DOES **NOT** SET THE CONTROL KEYS FOR THE SCRIPT
+const UP_KEY = colors.controlKey('(W)');
+const UP_RIGHT_KEY = colors.controlKey('(E)');
+const RIGHT_KEY = colors.controlKey('(D)');
+const DOWN_RIGHT_KEY = colors.controlKey('(C)');
+const DOWN_KEY = colors.controlKey('(S)');
+const DOWN_LEFT_KEY = colors.controlKey('(Z)');
+const LEFT_KEY = colors.controlKey('(A)');
+const UP_LEFT_KEY = colors.controlKey('(Q)');
 
 const ROWS = 8;
 const COLS = 8;
@@ -35,7 +39,8 @@ const EMPTY_SQUARE = 'O';
 const QUEEN = colors.piece('*');
 var chessBoard = [];
 
-/* Function taken from: https://stackoverflow.com/questions/16873323/javascript-sleep-wait-before-continuing */
+// The function bellow was taken from:
+// https://stackoverflow.com/questions/16873323/javascript-sleep-wait-before-continuing
 function sleep(milliseconds) {
   var start = new Date().getTime();
   for (var i = 0; i < 1e7; i++) {
@@ -74,6 +79,12 @@ function printMenu() {
   console.log(colors.normalText('CONTROLS: ' + UP_KEY + ' UP / ' + UP_RIGHT_KEY + ' UP-RIGHT / ' + RIGHT_KEY + ' RIGHT / ' + DOWN_RIGHT_KEY + ' DOWN-RIGHT'));
   console.log(colors.normalText('          ' + DOWN_KEY + ' DOWN / ' + DOWN_LEFT_KEY + ' DOWN-LEFT / ' + LEFT_KEY + ' LEFT / ' + UP_LEFT_KEY + ' UP-LEFT'));
   console.log(colors.warning('\nPRESS (O) TO EXIT\n'));
+}
+
+function drawMainInterface() {
+  console.clear();
+  printBoard();
+  printMenu();
 }
 
 function moveQueen(option, position) {
@@ -124,16 +135,16 @@ function moveQueen(option, position) {
 
 function continueFlow(keyPressed) {
   let position = [];
+  // Get current Queen position stored in hidden board line
   position[0] = chessBoard[9][0];
   position[1] = chessBoard[9][1];
   chessBoard[position[0]][position[1]] = EMPTY_SQUARE;
   moveQueen(keyPressed, position);
   chessBoard[position[0]][position[1]] = QUEEN;
+  // Update Queen position stored in hidden board line
   chessBoard[9][0] = position[0];
   chessBoard[9][1] = position[1];
-  console.clear();
-  printBoard();
-  printMenu();
+  drawMainInterface();
 }
 
 function endFlow() {
@@ -148,11 +159,10 @@ function endFlow() {
 initializeBoard();
 // Set the Queen initial position
 chessBoard[0][0] = QUEEN;
-// Store the Queen position information in a 'hidden' line of the board
+// Store the Queen position information in a hidden line of the board
 chessBoard[9] = [0, 0];
-console.clear();
-printBoard();
-printMenu();
+drawMainInterface();
+
 // The code below was adapted from the example in the documentation: https://www.npmjs.com/package/keypress
 // listen for the "keypress" event
 process.stdin.on('keypress', function (ch, key) {
