@@ -5,13 +5,6 @@ const prompt = require('prompt-sync')();
 const colors = require('colors/safe');
 const { log } = require('winston');
 
-// colors.setTheme({
-//   piece: ['cyan', 'bold', 'underline'],
-//   normalText: ['brightCyan', 'bold'],
-//   textHighlight: ['black', 'bold', 'bgCyan'],
-//   warning: ['red', 'bold', 'underline'],
-//   option: ['green', 'bold'],
-// });
 colors.setTheme({
   piece: ['green', 'bold', 'underline'],
   normalText: ['blue', 'bold'],
