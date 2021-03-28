@@ -13,7 +13,7 @@ const { log } = require('winston');
 //   option: ['green', 'bold'],
 // });
 colors.setTheme({
-  piece: ['blue', 'bold', 'underline'],
+  piece: ['green', 'bold', 'underline'],
   normalText: ['blue', 'bold'],
   textHighlight: ['blue', 'bold', 'underline'],
   warning: ['red', 'bold'],
