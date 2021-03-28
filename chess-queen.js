@@ -48,7 +48,7 @@ function sleep(milliseconds) {
 function printMenu() {
   console.log(colors.normalText('CONTROLS: ' + UP_KEY + ' UP / ' + UP_RIGHT_KEY + ' UP-RIGHT / ' + RIGHT_KEY + ' RIGHT / ' + DOWN_RIGHT_KEY + ' DOWN-RIGHT'));
   console.log(colors.normalText('          ' + DOWN_KEY + ' DOWN / ' + DOWN_LEFT_KEY + ' DOWN-LEFT / ' + LEFT_KEY + ' LEFT / ' + UP_LEFT_KEY + ' UP-LEFT'));
-  console.log(colors.warning('\nPRESS \'O\' TO EXIT\n'));
+  console.log(colors.warning('\nPRESS (O) TO EXIT\n'));
 }
 
 function initializeBoard() {
@@ -116,7 +116,7 @@ function moveQueen(option, position) {
     default:
       console.clear();
       console.log(colors.warning('\nERROR: (' + option.toUpperCase() + ') IS NOT A VALID OPTION!\n'));
-      sleep(2000);
+      sleep(2500);
       break;
   }
 }
