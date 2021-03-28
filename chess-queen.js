@@ -33,6 +33,7 @@ const DOWN_LEFT_KEY = colors.controlKey('(Z)');
 const LEFT_KEY = colors.controlKey('(A)');
 const UP_LEFT_KEY = colors.controlKey('(Q)');
 
+// Board parameters and initialization
 const ROWS = 8;
 const COLS = 8;
 const EMPTY_SQUARE = 'O';
@@ -75,7 +76,7 @@ function printBoard() {
 }
 
 function printMenu() {
-  console.log(colors.news('NEW! NO NEED TO PRESS <ENTER> ANYMORE! JUST HIT THE KEY YOU WANT :)'));
+  console.log(colors.news('NEW! NO NEED TO PRESS (ENTER) ANYMORE! JUST HIT THE KEY YOU WANT :)'));
   console.log(colors.normalText('CONTROLS: ' + UP_KEY + ' UP / ' + UP_RIGHT_KEY + ' UP-RIGHT / ' + RIGHT_KEY + ' RIGHT / ' + DOWN_RIGHT_KEY + ' DOWN-RIGHT'));
   console.log(colors.normalText('          ' + DOWN_KEY + ' DOWN / ' + DOWN_LEFT_KEY + ' DOWN-LEFT / ' + LEFT_KEY + ' LEFT / ' + UP_LEFT_KEY + ' UP-LEFT'));
   console.log(colors.warning('\nPRESS (O) TO EXIT\n'));
