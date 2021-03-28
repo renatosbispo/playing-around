@@ -7,10 +7,20 @@ const { log } = require('winston');
 
 colors.setTheme({
   piece: ['cyan', 'bold', 'underline'],
-  textHighlight: ['black', 'bold', 'bgCyan'],
   normalText: ['brightCyan', 'bold'],
+  textHighlight: ['black', 'bold', 'bgCyan'],
   warning: ['red', 'bold', 'underline'],
+  option: ['green', 'bold'],
 });
+
+const UP_KEY = colors.option('(W)');
+const UP_RIGHT_KEY = colors.option('(E)');
+const RIGHT_KEY = colors.option('(D)');
+const DOWN_RIGHT_KEY = colors.option('(C)');
+const DOWN_KEY = colors.option('(X)');
+const DOWN_LEFT_KEY = colors.option('(Z)');
+const LEFT_KEY = colors.option('(A)');
+const UP_LEFT_KEY = colors.option('(Q)');
 
 const ROWS = 8;
 const COLS = 8;
@@ -33,13 +43,13 @@ function onErr(err) {
   return 1;
 }
 
-function chooseMove() {
-  console.log(colors.normalText('CHOOSE A MOVE: (W) UP / (E) UP-RIGHT / (D) RIGHT / (C) DOWN-RIGHT'));
-  console.log(colors.normalText('               (X) DOWN / (Z) DOWN-LEFT / (A) LEFT / (Q) UP-LEFT'));
+function chooseOption() {
+  console.log(colors.normalText('CHOOSE A MOVE: ' + UP_KEY + ' UP / ' + UP_RIGHT_KEY + ' UP-RIGHT / ' + RIGHT_KEY + ' RIGHT / ' + DOWN_RIGHT_KEY + ' DOWN-RIGHT'));
+  console.log(colors.normalText('               ' + DOWN_KEY + ' DOWN / ' + DOWN_LEFT_KEY + ' DOWN-LEFT / ' + LEFT_KEY + ' LEFT / ' + UP_LEFT_KEY + ' UP-LEFT'));
   console.log(colors.warning('OR \'O\' TO EXIT\n'));
-  let move = prompt(colors.textHighlight('YOUR CHOICE:') + ' ');
+  let option = prompt(colors.textHighlight('YOUR CHOICE:') + ' ');
   
-  return move;
+  return option.toLowerCase();
 }
 
 function initializeBoard() {
@@ -66,17 +76,40 @@ function printBoard() {
   console.log();
 }
 
-function moveQueen(move, position) {
-  move = move.toLowerCase();
-  switch (move) {
+function moveQueen(option, position) {
+  switch (option) {
     case 'w':
       position[0] -= 1;
+      break;
+    case 'e':
+      position[0] -= 1;
+      position[1] += 1;
+      break;
+    case 'd':
+      position[1] += 1;
+      break;
+    case 'c':
+      position[0] += 1;
+      position[1] += 1;
       break;
     case 'x':
       position[0] += 1;
       break;
+    case 'z':
+      position[0] += 1;
+      position[1] -= 1;
+      break;
+    case 'a':
+      position[1] -= 1;
+      break;
+    case 'q':
+      position[0] -= 1;
+      position[1] -= 1;
+      break;
     default:
-      console.log('ERROR');
+      console.clear();
+      console.log(colors.warning('\nERROR: INVALID OPTION!\n'));
+      sleep(2000);
       break;
   }
 }
@@ -84,11 +117,23 @@ function moveQueen(move, position) {
 initializeBoard();
 chessBoard[0][0] = QUEEN;
 let position = [0, 0];
+let chosenOption;
+let exitChosen = false;
 console.clear();
-for(let i = 0; i < 5; i += 1) {
+while(exitChosen == false) {
   printBoard();
-  chessBoard[position[0]][position[1]] = EMPTY_SQUARE;
-  moveQueen(chooseMove(), position);
-  chessBoard[position[0]][position[1]] = QUEEN;
-  console.clear();
+  chosenOption = chooseOption();
+  if (chosenOption === 'o') {
+    exitChosen = true;
+    console.clear();
+    console.log(colors.normalText('Thank you...'));
+    sleep(1000);
+    console.log(colors.normalText('Bye bye! :)'));
+    sleep(1000);
+  } else {
+    chessBoard[position[0]][position[1]] = EMPTY_SQUARE;
+    moveQueen(chosenOption, position);
+    chessBoard[position[0]][position[1]] = QUEEN;
+    console.clear();
+  }
 }
