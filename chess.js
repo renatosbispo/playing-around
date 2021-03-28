@@ -1,11 +1,13 @@
 /* !!!! WARNING !!!! */
 /* THIS SCRIPT WAS MEANT TO BE EXECUTED FROM THE COMMAND LINE */
 /* AVOID RUNNING THIS SCRIPT IN A BROWSER, SEE SOURCE FOR THE sleep() FUNCTION FOR MORE INFO */
+const prompt = require('prompt');
+const colors = require('colors/safe');
 
 const ROWS = 8;
 const COLS = 8;
 const EMPTY_SQUARE = 'O';
-const QUEEN = '*';
+const QUEEN = colors.cyan.bold.underline('*');
 var chessBoard = [];
 
 /* Function taken from: https://stackoverflow.com/questions/16873323/javascript-sleep-wait-before-continuing */
@@ -16,6 +18,29 @@ function sleep(milliseconds) {
       break;
     }
   }
+}
+
+function onErr(err) {
+  console.log(err);
+  return 1;
+}
+
+function chooseMove() {
+  console.log('CHOOSE A MOVE: (W) UP / (E) UP-RIGHT / (D) RIGHT / (C) DOWN-RIGHT');
+  console.log('               (X) DOWN / (Z) DOWN-LEFT / (A) LEFT / (Q) UP-LEFT');
+
+  prompt.start();
+  prompt.message = false
+  prompt.delimiter = colors.black.bold.bgCyan(':')
+  prompt.get({
+    properties: {
+      move: {
+        description: colors.black.bold.bgCyan('YOUR MOVE')
+      }
+    }
+  }, function (err, result) {
+      if (err) { return onErr(err); }
+  });
 }
 
 function initializeBoard() {
@@ -41,13 +66,18 @@ function printBoard() {
 }
 
 initializeBoard();
+chessBoard[3][5] = QUEEN;
 console.clear();
-for (let index = 0; index < ROWS; index += 1) {
-  if (index > 0) {
-    chessBoard[index - 1][index - 1] = EMPTY_SQUARE;
-  }
-  chessBoard[index][index] = QUEEN;
-  printBoard();
-  sleep(750);
-  console.clear();
-}
+console.log(colors.black.bold.bgCyan('BOARD:\n'));
+printBoard();
+console.log();
+chooseMove();
+// for (let index = 0; index < ROWS; index += 1) {
+//   if (index > 0) {
+//     chessBoard[index - 1][index - 1] = EMPTY_SQUARE;
+//   }
+//   chessBoard[index][index] = QUEEN;
+//   printBoard();
+//   sleep(750);
+//   console.clear();
+// }
