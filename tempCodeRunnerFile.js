@@ -3,13 +3,10 @@
 /* AVOID RUNNING THIS SCRIPT IN A BROWSER, SEE SOURCE FOR THE sleep() FUNCTION FOR MORE INFO */
 const prompt = require('prompt-sync')();
 const colors = require('colors/safe');
-const { log } = require('winston');
 
 colors.setTheme({
   piece: ['cyan', 'bold', 'underline'],
   textHighlight: ['black', 'bold', 'bgCyan'],
-  normalText: ['brightCyan', 'bold'],
-  warning: ['red', 'bold', 'underline'],
 });
 
 const ROWS = 8;
@@ -34,9 +31,8 @@ function onErr(err) {
 }
 
 function chooseMove() {
-  console.log(colors.normalText('CHOOSE A MOVE: (W) UP / (E) UP-RIGHT / (D) RIGHT / (C) DOWN-RIGHT'));
-  console.log(colors.normalText('               (X) DOWN / (Z) DOWN-LEFT / (A) LEFT / (Q) UP-LEFT'));
-  console.log(colors.warning('OR \'O\' TO EXIT\n'));
+  console.log('CHOOSE A MOVE: (W) UP / (E) UP-RIGHT / (D) RIGHT / (C) DOWN-RIGHT');
+  console.log('               (X) DOWN / (Z) DOWN-LEFT / (A) LEFT / (Q) UP-LEFT');
   let move = prompt(colors.textHighlight('YOUR CHOICE:') + ' ');
   
   return move;
@@ -52,7 +48,6 @@ function initializeBoard() {
 }
 
 function printBoard() {
-  console.log(colors.textHighlight('BOARD:\n'));
   for (rowIndex = 0; rowIndex < ROWS; rowIndex += 1) {
     let row = '';
     for (colIndex = 0; colIndex < COLS; colIndex += 1) {
@@ -63,32 +58,22 @@ function printBoard() {
     }
     console.log(row);
   }
-  console.log();
-}
-
-function moveQueen(move, position) {
-  move = move.toLowerCase();
-  switch (move) {
-    case 'w':
-      position[0] -= 1;
-      break;
-    case 'x':
-      position[0] += 1;
-      break;
-    default:
-      console.log('ERROR');
-      break;
-  }
 }
 
 initializeBoard();
-chessBoard[0][0] = QUEEN;
-let position = [0, 0];
+chessBoard[3][5] = QUEEN;
 console.clear();
 for(let i = 0; i < 5; i += 1) {
   printBoard();
-  chessBoard[position[0]][position[1]] = EMPTY_SQUARE;
-  moveQueen(chooseMove(), position);
-  chessBoard[position[0]][position[1]] = QUEEN;
+  console.log(chooseMove());
   console.clear();
 }
+// for (let index = 0; index < ROWS; index += 1) {
+//   if (index > 0) {
+//     chessBoard[index - 1][index - 1] = EMPTY_SQUARE;
+//   }
+//   chessBoard[index][index] = QUEEN;
+//   printBoard();
+//   sleep(750);
+//   console.clear();
+// }
