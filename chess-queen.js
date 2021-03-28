@@ -1,7 +1,6 @@
 /* !!!! WARNING !!!! */
 /* THIS SCRIPT WAS MEANT TO BE EXECUTED FROM THE COMMAND LINE */
 /* AVOID RUNNING THIS SCRIPT IN A BROWSER, SEE SOURCE FOR THE sleep() FUNCTION FOR MORE INFO */
-const prompt = require('prompt-sync')();
 const colors = require('colors/safe');
 const { log } = require('winston');
 const keypress = require('keypress');
