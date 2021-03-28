@@ -115,7 +115,7 @@ function moveQueen(option, position) {
       break;
     default:
       console.clear();
-      console.log(colors.warning('\nERROR: INVALID OPTION!\n'));
+      console.log(colors.warning('\nERROR: (' + option.toUpperCase() + ') IS NOT A VALID OPTION!\n'));
       sleep(2000);
       break;
   }
